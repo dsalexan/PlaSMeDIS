@@ -1,6 +1,6 @@
 layout: page
 title: "Contato"
-permalink: https://codelabunifesp.github.io/contact/
+permalink: https://codelabunifesp.github.io/
 
 E-mail: codelab.unifesp@gmail.com
 
