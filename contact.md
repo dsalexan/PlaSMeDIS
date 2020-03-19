@@ -1,2 +1,3 @@
-Email do projeto: codelab.unifesp@gmail.com
+E-mail: codelab.unifesp@gmail.com
+
 Profa. Denise Stringhini (coordenadora): dstringhini@unifesp.br
