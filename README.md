@@ -34,7 +34,7 @@ Distribuído sob a licença GPLv3.
 
 [https://github.com/CodelabUnifesp/PlaSMeDIS]
 
-## Instruções para conrtribuições
+## Instruções para contribuições
 
 1. Faça o _fork_ do projeto (<https://github.com/CodelabUnifesp/PlasMeDIS/fork>)
 2. Crie uma _branch_ para sua modificação (`git checkout -b feature/fooBar`)
