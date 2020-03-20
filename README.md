@@ -1,5 +1,6 @@
 # PlaSMeDIS
-Plataforma Social Moderada para Disseminação de Informações sobre Saúde (projeto de extensão CodeLab-Unifesp - IBEAC)
+Plataforma Social Moderada para Disseminação de Informações sobre Saúde 
+Ação do projeto de extensão CodeLab-Unifesp - IBEAC
 
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
@@ -13,7 +14,8 @@ O projeto CodeLab-Unifesp desenvolve uma plataforma de comunicação e interaç�
 
 ## Configuração para Desenvolvimento
 
-Em construção.
+"Em construção."
+
 -- Descrição de como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, fazer isso para múltiplas plataformas.
 
 ```sh
