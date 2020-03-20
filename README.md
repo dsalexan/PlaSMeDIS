@@ -13,7 +13,8 @@ O projeto CodeLab-Unifesp desenvolve uma plataforma de comunicação e interaç�
 
 ## Configuração para Desenvolvimento
 
-Descreva como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, faça isso para múltiplas plataformas.
+Em construção.
+-- Descrição de como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, fazer isso para múltiplas plataformas.
 
 ```sh
 make install
@@ -25,15 +26,15 @@ npm test
 * 0.0.1
     * Trabalho em andamento
 
-## Meta
+## Contato
 
 CodeLab-Unifesp – codelab.unifesp@gmail.com
 
-Distribuído sob a licença XYZ. Veja `LICENSE` para mais informações.
+Distribuído sob a licença GPLv3.
 
 [https://github.com/CodelabUnifesp/PlaSMeDIS]
 
-## Contributing
+## Instruções para conrtribuições
 
 1. Faça o _fork_ do projeto (<https://github.com/CodelabUnifesp/PlasMeDIS/fork>)
 2. Crie uma _branch_ para sua modificação (`git checkout -b feature/fooBar`)
