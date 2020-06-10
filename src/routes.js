@@ -9,7 +9,7 @@ import Login from "./pages/login";
 
 const Routes = createStackNavigator({
     PlaSMeDIS: {
-        screen: Drawer,
+        screen: Login,
         navigationOptions: {
             headerTitleAlign: 'center',
             headerStyle: {
@@ -27,12 +27,12 @@ const Routes = createStackNavigator({
             },
           },
       },
-      Login: {
-        screen:Login
+      Drawer: {
+        screen:Drawer
     }
     },
     {
-      initialRouteName: 'Login',
+      initialRouteName: 'PlaSMeDIS',
     }
   );
 
