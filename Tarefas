@@ -1,0 +1,7 @@
+Tarefas:
+
+1. Subir servidor no Heroku
+    1.1 servidor: ruby on rails - adaptar e linkar com o front 
+    1.2 montar tabela status x informação enviada (OK primeiro CRUD)
+    
+2. Caso de uso de Controle de Sessão
