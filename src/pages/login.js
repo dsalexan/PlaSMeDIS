@@ -116,7 +116,6 @@ handlePasswordChange = (password) => {
     return (
       <View style={styles.containerView}>
         <View style={styles.loginScreenContainer}>
-          <StatusBar barStyle="dark-content" backgroundColor="#fafafa"/>
           <View style={styles.loginFormView}>
           <Text style={styles.logoText}>PlaSMeDIS</Text>
             <TextInput placeholder="Username" 

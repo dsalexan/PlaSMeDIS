@@ -12,7 +12,7 @@ class DrawerIcon extends React.Component {
   render() {
     return (
       <TouchableOpacity style={styles.trigger} onPress={() => { this.props.navigation.dispatch(DrawerActions.openDrawer())}}hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}>
-        <Icon name="menu" size={35} color="#fff" style={styles.icon} light />
+        <Icon name="menu" size={35} color="#31788A" style={styles.icon} light />
       </TouchableOpacity>
     )
   }

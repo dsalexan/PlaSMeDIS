@@ -12,14 +12,10 @@ const styles = StyleSheet.create({
     },
     titulo:{
         position: 'absolute',
-        width: 354,
-        height: 21,
-        left: -10,
+        left: 25,
         top: 15,
 
         fontFamily: 'Roboto',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
         fontSize: 24,
         lineHeight: 25,
         textAlign: 'center',
@@ -50,9 +46,9 @@ const styles = StyleSheet.create({
     
 });
 
-export default class Cadastro extends Component {
+export default class Update extends Component {
     static navigationOptions = {
-        title: 'Cadastro de Novos Usuários',
+        title: 'Atualização de Dados',
     }
     state = {   
       previlegio: ' ', name:'', email:'', senha:'', senhaTemp:'', error:'' 
@@ -84,26 +80,17 @@ export default class Cadastro extends Component {
        else {
         try {
           const response = await api.post('cadastro', {
-            status: 20,
+            status: 140,
             payload:[{
-              nome: this.state.name
-            },
-            {
-              senhaTemp: this.state.senha
-            },
-            {
-              email: this.state.email
-            },
-            {
-              previlegio: this.state.previlegio
+              senhaNova: this.state.senhaNova
             }]
           });
             
           //await AsyncStorage.setItem(' ', response.data.token);
-          Alert.alert('Cadastrado com sucesso')
+          Alert.alert('Atualizado com sucesso')
 
           this.setState({   
-            previlegio: ' ', name:'', email:'', senha:'', senhaTemp:'', error:''
+           senhaNova:'', senhaTempNova:'', error:''
           });
          
           this.props.navigation.dispatch(resetAction);
@@ -116,29 +103,13 @@ export default class Cadastro extends Component {
     render() {
       return (
          <SafeAreaView style={styles.Container}> 
-            <Text style={styles.titulo}>Cadastro de Novos Usuários</Text>
+            <Text style={styles.titulo}>Atualização de Dados</Text>
             <View style={styles.Form}>
 
-              <Input placeholder="Nome Completo" 
+              <Input placeholder="Nova Senha" 
               placeholderColor="#c4c3cb" 
               style={styles.NameInput}
-              value={this.state.name}
-              onChangeText={this.handlenameChange}
-              autoCapitalize="none"
-              autoCorrect={false} 
-              />
-              <Input placeholder="Email" 
-              placeholderColor="#c4c3cb" 
-              style={styles.NameInput}
-              value={this.state.email}
-              onChangeText={this.handleemailChange}
-              autoCapitalize="none"
-              autoCorrect={false} 
-              />
-              <Input placeholder="Senha Temporária" 
-              placeholderColor="#c4c3cb" 
-              style={styles.NameInput}
-              value={this.state.senha}
+              value={this.state.senhaNova}
               onChangeText={this.handlesenhaChange}
               autoCapitalize="none"
               autoCorrect={false}
@@ -147,27 +118,17 @@ export default class Cadastro extends Component {
               <Input placeholder="Confirmação de Senha" 
               placeholderColor="#c4c3cb" 
               style={styles.NameInput}
-              value={this.state.senhaTemp}
+              value={this.state.senhaTempNova}
               onChangeText={this.handlesenhaTempChange}
               autoCapitalize="none"
               autoCorrect={false} 
               secureTextEntry={true}
               />
-              <Picker
-                selectedValue={this.state.previlegio}
-                style={{height: 50, width: 325, marginLeft:10}}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({previlegio: itemValue})
-                }>
-                <Picker.Item label="Moderador" value="moderador" />
-                <Picker.Item label="Usuário" value="usuario" />
-                <Picker.Item label="Administrador" value="adm" />
-              </Picker>
               <Button
                 buttonStyle={styles.CadButton}
                 containerStyle={styles.containerButton}
                 onPress={this.handleCadastrarPress}
-                title="Cadastrar"
+                title="Atualizar"
               />
           </View>
         </SafeAreaView> 
