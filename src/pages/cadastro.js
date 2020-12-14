@@ -4,7 +4,6 @@ import {Text, View, StatusBar, StyleSheet, Alert, KeyboardAvoidingView, SafeArea
 import { Button } from 'react-native-elements';
 import { Input } from 'react-native-elements';
 import {Picker} from '@react-native-community/picker';
-import { Header } from 'react-navigation-stack';
 import api from '../services/api'
 
 const styles = StyleSheet.create({
@@ -57,7 +56,18 @@ export default class Cadastro extends Component {
         title: 'Cadastro de Novos Usuários',
     }
     state = {   
-      user_type: '1', real_name:'', email:'', password:'', senhaTemp:'', error:'' , message:''
+      user_type: '1', real_name:'', email:'', password:'', senhaTemp:'', error:'' , message:'', 
+      bairro: [], bairro_valor: ' '};
+
+    componentDidMount =()=>{
+      this.getBairro();
+  };
+    getBairro = async()=>{
+        await api.get("bairros").then( res => {
+          this.setState({  bairro: res.data.Bairros});
+        });
+        console.log(this.state.bairro);
+        { this.state.bairro.map((item, key)=>(console.log(item.id)))}
     };
 
     handlenameChange = (real_name) => {
@@ -77,7 +87,7 @@ export default class Cadastro extends Component {
     };
 
     handleCadastrarPress = async () => {
-      if (this.state.real_name.length === 0 || this.state.email.length === 0 || this.state.password.length == 0 ||  this.state.senhaTemp.length == 0 ) {
+      if (this.state.real_name.length === 0 || this.state.email.length === 0 || this.state.password.length == 0 ||  this.state.senhaTemp.length == 0 || this.state.bairro.length === 0) {
         this.setState({ error: Alert.alert('Atenção','Preencha todos os campos para continuar.') }, () => false);
       }
       if(this.state.password != this.state.senhaTemp){
@@ -85,23 +95,24 @@ export default class Cadastro extends Component {
       }
        else {
         try {
-            const response = await api.post('users', {
+            await api.post('users', {
               real_name : this.state.real_name,
               password: this.state.password,
               email: this.state.email,
-              user_type: this.state.user_type
+              user_type: this.state.user_type,
+              bairro: this.state.bairro_valor
           }).then(res=>{
             this.setState({message: res.data.message});
             this.setState({error: res.data.error});
           });
             
-          //await AsyncStorage.setItem(' ', response.data.token);
           Alert.alert('Sucesso!', this.state.message);
 
           this.setState({   
-            user_type: '1', real_name:'', email:'', password:'', senhaTemp:'', error:''
+            user_type: '1', real_name:'', email:'', password:'', senhaTemp:'', error:'', bairro_valor:''
           });
         } catch (_err) {
+          console.log(this.bairro_valor)
           Alert.alert('Atenção', this.state.error)
         }
       }
@@ -112,7 +123,6 @@ export default class Cadastro extends Component {
          <SafeAreaView style={styles.Container}> 
             <Text style={styles.titulo}>Cadastro de Novos Usuários</Text>   
               <View style={styles.Form}>
-                <KeyboardAvoidingView behavior = "padding" >
                   <ScrollView>
                     <Input placeholder="Nome Completo" 
                     placeholderColor="#c4c3cb" 
@@ -162,14 +172,24 @@ export default class Cadastro extends Component {
                     blurOnSubmit={false} 
                     />
                     <Picker
+                      selectedValue={this.state.bairro_valor}
+                      style={{height: 50, width: 325, marginLeft:10}}
+                      onValueChange={(ItemValue, ItemIndex) =>
+                        this.setState({bairro_valor: ItemValue})
+                      }>
+                        { this.state.bairro.map((item, key)=>(
+                        <Picker.Item label={item.nome} value={item.id} key={key} />)  
+                      )}
+                    </Picker>
+                    <Picker
                       selectedValue={this.state.user_type}
                       style={{height: 50, width: 325, marginLeft:10}}
                       onValueChange={(itemValue, itemIndex) =>
                         this.setState({user_type: itemValue})
                       }>
-                      <Picker.Item label="Usuário" value="1" />
+                      <Picker.Item label="Usuário" value="3" />
                       <Picker.Item label="Moderador" value="2" />
-                      <Picker.Item label="Administrador" value="3" />
+                      <Picker.Item label="Administrador" value="1" />
                     </Picker>
                     <Button
                       buttonStyle={styles.CadButton}
@@ -178,7 +198,6 @@ export default class Cadastro extends Component {
                       title="Cadastrar"
                     />
                   </ScrollView>
-                </KeyboardAvoidingView>
               </View>
         </SafeAreaView> 
       );

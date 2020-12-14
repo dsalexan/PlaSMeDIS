@@ -7,9 +7,9 @@ import Recomendado from '../pages/recomendado';
 import Postagem from '../pages/postagemFiltro'
 
   
-const TabNavigator = createMaterialTopTabNavigator(  
+const TabNavigatorF = createMaterialTopTabNavigator(  
     {  
-        Início: Home,  
+        Início: Postagem,  
         Recomendados: Recomendado,    
     },  
     {  
@@ -40,5 +40,5 @@ const TabNavigator = createMaterialTopTabNavigator(
     },
 )  
 
-const Tab = createAppContainer(TabNavigator);  
-export default Tab;  
+const TabF = createAppContainer(TabNavigatorF);  
+export default TabF;  

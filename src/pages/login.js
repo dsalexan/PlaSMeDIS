@@ -107,7 +107,7 @@ handlePasswordChange = (password) => {
       }
       else{
 
-        if(this.state.user_type == '1'){
+        if(this.state.user_type == '3'){
 
           const resetAction = StackActions.reset({
             index: 0,
@@ -139,7 +139,7 @@ handlePasswordChange = (password) => {
       <View style={styles.containerView}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
-          <Text style={styles.logoText}>PlaSMeDIS</Text>
+          <Text style={styles.logoText}>IBEApp</Text>
             <TextInput placeholder="Email" 
             placeholderColor="#c4c3cb" 
             style={styles.loginFormTextInput}

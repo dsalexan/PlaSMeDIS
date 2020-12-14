@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 
 import {Text, View, StyleSheet, Image, TouchableOpacity, Modal, TextInput, Alert} from 'react-native';
+import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/Feather';
-import Postagem from '../pages/postagem';
-import PropTypes from 'prop-types';
+import api from '../services/api';
+import Postagem from '../pages/postagemFiltro';
+import AsyncStorage from '@react-native-community/async-storage';
+import {Picker} from '@react-native-community/picker';
 import Post_postagem from './post_postagem';
-import { Dimensions } from "react-native";
-
-var width = Dimensions.get('window').width; //full width
-var height = Dimensions.get('window').height; //full height
 
 const styles = StyleSheet.create({
   foto_post:{
@@ -25,8 +24,8 @@ const styles = StyleSheet.create({
 
   },
   post:{
-    width: width,
-    position: "absolute",
+    position: 'absolute',
+    width: 414,
     height: 75,
     left: 0,
     marginTop: 10,
@@ -109,14 +108,6 @@ export default class Home extends Component {
     static navigationOptions = {
         title: 'Início',
     }
-
-    static propTypes = {
-      navigation: PropTypes.shape({
-        navigate: PropTypes.func,
-        dispatch: PropTypes.func,
-      }).isRequired,
-    };
-
     constructor(props){
       super(props);
       this.state = {isVisible: false};

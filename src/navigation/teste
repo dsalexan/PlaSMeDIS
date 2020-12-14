@@ -1,0 +1,30 @@
+const getPostagem = async()=>{
+  state = {categorias: ''};
+  await api.get("categorias").then( res => {
+    this.setState({ categorias: res.data.categorias });
+  });
+};
+
+const DrawerUsuario = createDrawerNavigator({
+  TabBar:{
+    screen:Tab,
+  },
+  FormsUpdate:{
+    screen: Update,
+  },
+  Formulario:{
+    screen: Forms,
+  },
+  Filtro:() =>({
+    screen: Postagem,
+    navigationOptions:
+      <DrawerUsuario.Navigator>
+      {categorias.map(nome => (
+        <Drawer.Screen name={nome} component={Postagem} />
+      ))}
+    </DrawerUsuario.Navigator>
+  })
+
+});
+
+export default DrawerUsuario;

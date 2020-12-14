@@ -1,15 +1,9 @@
 import React, { Component } from "react";
 
-import {Text, View, StatusBar, StyleSheet, TouchableOpacity, FlatList, Modal} from 'react-native';
+import {Text, View, StatusBar, StyleSheet, TouchableOpacity, AsyncStorage, FlatList} from 'react-native';
 import PropTypes from 'prop-types';
-import { StackActions, NavigationActions, withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/Feather';
 import api from '../services/api';
-import PostFull from './postFull';
-import { Dimensions } from "react-native";
-
-var width = Dimensions.get('window').width; //full width
-var height = Dimensions.get('window').height; //full height
 
 const styles = StyleSheet.create({
     content:{
@@ -17,8 +11,8 @@ const styles = StyleSheet.create({
        //marginBottom: 10
       }, 
   box:{
-    width: width,
-    height: 180,
+    width: 414,
+    height: 169,
     left: 0,
     marginTop: 10,
     flex: 1,
@@ -26,12 +20,13 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   iconComment:{
-    top:40,
+    top:80,
     left:300
   },
   titulo:{
-    //width: 300,
-    //height: 29,
+    position: 'absolute',
+    width: 300,
+    height: 29,
     left: 12,
     top: 20,
 
@@ -39,7 +34,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: 24,
-    //lineHeight: 28,
+    lineHeight: 28,
     /* identical to box height */
     letterSpacing: -0.333333,
 
@@ -50,7 +45,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 67,
     height: 13,
-    left: 58,
+    left: 55,
     top: 30,
 
     fontFamily: 'Roboto',
@@ -87,8 +82,8 @@ const styles = StyleSheet.create({
     width: 80,
     height: 90,
     left: 57,
-    //top: 10,
-    top: 20,
+    top: 10,
+    
     fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 'bold',
@@ -99,35 +94,33 @@ const styles = StyleSheet.create({
   },
 });
 
-class Postagem extends Component {
+export default class Postagem extends Component {
 
   static propTypes = {
     navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      dispatch: PropTypes.func,
+      getParam: PropTypes.func,
     }).isRequired,
   };
-  
+
     constructor(props) {
         super(props);
         this.page = 1;
         this.state = {
-          isVisible: false,
           refreshing: false, // user list loading
           isRefreshing: false, //for pull to refresh
           posts: [], //user list
           error: '',
           count:'',
-          id: '',
         }
       }
-    
+
     componentDidMount =()=>{
         this.getPostagem();
+        console.log(this.props.navigation.getParam('idCateg'))
     };
     getPostagem = async()=>{
-        await api.get("postagens").then( res => {
-          this.setState({  posts: res.data.post, cont: res.data.count, id: res.data.id});
+        await api.get("postagens/"+this.props.navigation.getParam('idCateg')).then( res => {
+          this.setState({  posts: res.data.post, cont: res.data.count});
           const posts = this.state.posts.reverse();
             this.setState({  posts: posts});
         });
@@ -138,60 +131,41 @@ class Postagem extends Component {
           isRefreshing: true,
           refreshing: true
         });
-        await api.get("postagens").then( res => {
-            this.setState({  posts: res.data.post, cont: res.data.count, id: res.data.id});
+        await api.get("postagens/",this.props.navigation.getParam('idCateg')).then( res => {
+            this.setState({  posts: res.data.post, cont: res.data.count});
             const posts = this.state.posts.reverse();
             this.setState({  posts: posts});
           });
         this.setState({
           isRefreshing: false,
           refreshing: false
-        }); 
+        });
+       
       };
     render() {
       return (
       <View style={styles.content}>
-        <Modal
-          animationType={'slide'}
-          transparent={false}
-          visible={this.state.isVisible}
-          onRequestClose={() => {
-            this.setState({ isVisible: false });
-          }}
-        >
-          <TouchableOpacity onPress={() => {this.setState({ isVisible: false });}}>
-            <Icon name="x" size={25} color="#31788A" style={styles.icon} light />
-          </TouchableOpacity>
-          <PostFull />
-        </Modal>
         <FlatList
               onRefresh={this.onRefresh}
               refreshing={this.state.refreshing}
               extraData={this.extraData}
               data={this.state.posts}
-              keyExtractor={(item, index) => item.id.toString()}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
-                <TouchableOpacity onPress={()=> this.props.navigation.navigate('PostFull', {
-                  titulo: item.titulo,
-                  texto: item.texto,
-                  selo: item.selo,
-                  idPostagem: item.id
-                })}>
-                  <View style={styles.box}>
-                    <View
-                      style={styles.foto}>
-                    </View>
-                    <Text  style={styles.texto}>{item.criador}</Text>
-                    {/*<Text  style={styles.tempo}>30 min.</Text>*/}
-                  <View>
-                  <Text style={styles.titulo}>{item.titulo}</Text>
-                </View>
-                <TouchableOpacity style={styles.iconComment}>
-                  <Icon name="message-circle" size={25} color="#31788A" />
-                  <Text style={styles.message}>0</Text>
-                </TouchableOpacity>
-                </View>
+                <View style={styles.box}>
+                  <View
+                    style={styles.foto}>
+                  </View>
+                  <Text  style={styles.texto}>{item.criador}</Text>
+                  <Text  style={styles.tempo}>30 min.</Text>
+                <View>
+                <Text style={styles.titulo}>{item.titulo}</Text>
+              </View>
+              <TouchableOpacity style={styles.iconComment}>
+                <Icon name="message-circle" size={25} color="#31788A" />
+                <Text style={styles.message}>0</Text>
               </TouchableOpacity>
+              </View>
             )}
           />
       </View>
@@ -199,4 +173,3 @@ class Postagem extends Component {
     }
   }
   
-  export default withNavigation(Postagem);

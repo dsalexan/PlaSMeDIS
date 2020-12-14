@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.plasmedis">
+  package="com.ibeapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

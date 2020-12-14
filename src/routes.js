@@ -6,13 +6,16 @@ import DrawerIcon from "./pages/header";
 import DrawerUsuario from './navigation/DrawerUsuario.js';
 import Login from "./pages/login";
 import DrawerAdm from "./navigation/drawerAdm.js";
+import Postagem from './pages/postagem';
+import PostFull from './pages/postFull';
+import Home from './pages/home';
 
 
 const Routes = createStackNavigator({
       Adm: {
         screen: DrawerAdm,
         navigationOptions: {
-            title: 'PlaSMeDIS',
+            title: 'IBEAPP',
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: '#fafafa',
@@ -33,7 +36,7 @@ const Routes = createStackNavigator({
       Usuario: {
         screen: DrawerUsuario,
         navigationOptions: {
-            title: 'PlaSMeDIS',
+            title: 'IBEAPP',
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: '#fafafa',
@@ -52,8 +55,17 @@ const Routes = createStackNavigator({
           },
       },
       Login: {
-        screen:Login
-    }
+        screen: Login
+    },
+      PostFull:{
+        screen: PostFull
+    },
+      Home:{
+        screen: Home
+    },
+    Postagem:{
+      screen: Postagem
+  },
     },
     {
       initialRouteName: 'Login',
