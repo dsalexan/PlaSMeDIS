@@ -59,19 +59,21 @@ const styles = StyleSheet.create({
      color: '#179AAB',
  
    },
-   foto:{
-     borderWidth:1,
-     borderColor:'rgba(0,0,0,0.2)',
-     alignItems:'center',
-     justifyContent:'center',
-     width:40,
-     height:40,
-     backgroundColor:'#fff',
-     borderRadius:50,
-     marginTop: 10,
-     marginLeft: 10,
- 
-   },
+   foto: {
+    elevation: 0.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    marginTop: 10,
+    marginLeft: 10,
+  },
+  identificador: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    color: 'white',
+  },
    message:{
      left:30,
      bottom: 25,
@@ -211,6 +213,11 @@ export default class Home extends Component {
         this.getPostagem();
         console.log(this.props.navigation.getParam('idCateg'))
     };
+
+    getColor = () => {
+      return `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},0.5)`
+    };
+
     getPostagem = async()=>{
         await api.get("postagens/"+this.props.navigation.getParam('idCateg')).then( res => {
           this.setState({  posts: res.data.post, cont: res.data.count});
@@ -272,9 +279,11 @@ export default class Home extends Component {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={styles.box}>
-                  <View
-                    style={styles.foto}>
-                  </View>
+                  <View style={{...styles.foto,  ...{backgroundColor: this.getColor()}}}>
+                  <Text style={styles.identificador}>
+                    {item.criador[0].toUpperCase()}
+                  </Text>
+                </View>
                   <Text  style={styles.texto}>{item.criador}</Text>
                   <Text  style={styles.tempo}>30 min.</Text>
                 <View>
