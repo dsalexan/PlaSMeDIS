@@ -1,22 +1,33 @@
-import React, { Component } from "react";
-
-import {Text, View, StatusBar, StyleSheet, TouchableOpacity, FlatList, Modal} from 'react-native';
+import React, {Component} from 'react';
+import {
+  Text,
+  View,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Modal,
+} from 'react-native';
 import PropTypes from 'prop-types';
-import { StackActions, NavigationActions, withNavigation } from 'react-navigation';
+import {
+  StackActions,
+  NavigationActions,
+  withNavigation,
+} from 'react-navigation';
 import Icon from 'react-native-vector-icons/dist/Feather';
 import api from '../services/api';
 import PostFull from './postFull';
-import { Dimensions } from "react-native";
+import {Dimensions} from 'react-native';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 const styles = StyleSheet.create({
-    content:{
-       marginTop: 85,
-       //marginBottom: 10
-      }, 
-  box:{
+  content: {
+    marginTop: 85,
+    //marginBottom: 10
+  },
+  box: {
     width: width,
     height: 180,
     left: 0,
@@ -25,11 +36,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     elevation: 1,
   },
-  iconComment:{
-    top:40,
-    left:300
+  iconComment: {
+    top: 40,
+    left: 300,
   },
-  titulo:{
+  titulo: {
     //width: 300,
     //height: 29,
     left: 12,
@@ -44,9 +55,8 @@ const styles = StyleSheet.create({
     letterSpacing: -0.333333,
 
     color: '#09576E',
-
   },
-  tempo:{
+  tempo: {
     position: 'absolute',
     width: 67,
     height: 13,
@@ -61,28 +71,29 @@ const styles = StyleSheet.create({
     letterSpacing: -0.333333,
 
     color: '#179AAB',
-
   },
-  foto:{
-    borderWidth:1,
-    borderColor:'rgba(0,0,0,0.2)',
-    alignItems:'center',
-    justifyContent:'center',
-    width:40,
-    height:40,
-    backgroundColor:'#fff',
-    borderRadius:50,
+  foto: {
+    elevation: 0.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 50,
     marginTop: 10,
     marginLeft: 10,
-
   },
-  message:{
-    left:30,
+  identificador: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    color: 'white',
+  },
+  message: {
+    left: 30,
     bottom: 25,
     fontSize: 18,
-    color: "#31788A",
+    color: '#31788A',
   },
-  texto:{
+  texto: {
     position: 'absolute',
     width: 80,
     height: 90,
@@ -94,109 +105,134 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     letterSpacing: -0.333333,
-    
+
     color: '#179AAB',
   },
 });
 
 class Postagem extends Component {
-
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
       dispatch: PropTypes.func,
     }).isRequired,
   };
-  
-    constructor(props) {
-        super(props);
-        this.page = 1;
-        this.state = {
-          isVisible: false,
-          refreshing: false, // user list loading
-          isRefreshing: false, //for pull to refresh
-          posts: [], //user list
-          error: '',
-          count:'',
-          id: '',
-        }
-      }
-    
-    componentDidMount =()=>{
-        this.getPostagem();
+
+  constructor(props) {
+    super(props);
+    this.page = 1;
+    this.state = {
+      isVisible: false,
+      refreshing: false, // user list loading
+      isRefreshing: false, //for pull to refresh
+      posts: [], //user list
+      error: '',
+      count: '',
+      id: '',
     };
-    getPostagem = async()=>{
-        await api.get("postagens").then( res => {
-          this.setState({  posts: res.data.post, cont: res.data.count, id: res.data.id});
-          const posts = this.state.posts.reverse();
-            this.setState({  posts: posts});
-        });
-        console.log(this.state.posts);
-    };
-    onRefresh = async () => {
-        this.setState({
-          isRefreshing: true,
-          refreshing: true
-        });
-        await api.get("postagens").then( res => {
-            this.setState({  posts: res.data.post, cont: res.data.count, id: res.data.id});
-            const posts = this.state.posts.reverse();
-            this.setState({  posts: posts});
-          });
-        this.setState({
-          isRefreshing: false,
-          refreshing: false
-        }); 
-      };
-    render() {
-      return (
+  }
+
+  componentDidMount = () => {
+    this.getPostagem();
+  };
+
+  getColor = () => {
+    return `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},0.5)`
+  };
+
+  getPostagem = async () => {
+    await api.get('postagens').then((res) => {
+      this.setState({
+        posts: res.data.post,
+        cont: res.data.count,
+        id: res.data.id,
+      });
+      const posts = this.state.posts.reverse();
+      this.setState({posts: posts});
+    });
+    console.log(this.state.posts);
+  };
+  onRefresh = async () => {
+    this.setState({
+      isRefreshing: true,
+      refreshing: true,
+    });
+    await api.get('postagens').then((res) => {
+      this.setState({
+        posts: res.data.post,
+        cont: res.data.count,
+        id: res.data.id,
+      });
+      const posts = this.state.posts.reverse();
+      this.setState({posts: posts});
+    });
+    this.setState({
+      isRefreshing: false,
+      refreshing: false,
+    });
+  };
+  render() {
+    return (
       <View style={styles.content}>
         <Modal
           animationType={'slide'}
           transparent={false}
           visible={this.state.isVisible}
           onRequestClose={() => {
-            this.setState({ isVisible: false });
-          }}
-        >
-          <TouchableOpacity onPress={() => {this.setState({ isVisible: false });}}>
-            <Icon name="x" size={25} color="#31788A" style={styles.icon} light />
+            this.setState({isVisible: false});
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({isVisible: false});
+            }}>
+            <Icon
+              name="x"
+              size={25}
+              color="#31788A"
+              style={styles.icon}
+              light
+            />
           </TouchableOpacity>
           <PostFull />
         </Modal>
         <FlatList
-              onRefresh={this.onRefresh}
-              refreshing={this.state.refreshing}
-              extraData={this.extraData}
-              data={this.state.posts}
-              keyExtractor={(item, index) => item.id.toString()}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={()=> this.props.navigation.navigate('PostFull', {
+          onRefresh={this.onRefresh}
+          refreshing={this.state.refreshing}
+          extraData={this.extraData}
+          data={this.state.posts}
+          keyExtractor={(item, index) => item.id.toString()}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('PostFull', {
                   titulo: item.titulo,
                   texto: item.texto,
                   selo: item.selo,
-                  idPostagem: item.id
-                })}>
-                  <View style={styles.box}>
-                    <View
-                      style={styles.foto}>
-                    </View>
-                    <Text  style={styles.texto}>{item.criador}</Text>
-                    {/*<Text  style={styles.tempo}>30 min.</Text>*/}
-                  <View>
+                  idPostagem: item.id,
+                })
+              }>
+              <View style={styles.box}>
+                <View style={{...styles.foto,  ...{backgroundColor: this.getColor()}}}>
+                  <Text style={styles.identificador}>
+                    {item.criador[0].toUpperCase()}
+                  </Text>
+                </View>
+                <Text style={styles.texto}>{item.criador}</Text>
+                {/*<Text  style={styles.tempo}>30 min.</Text>*/}
+                <View>
                   <Text style={styles.titulo}>{item.titulo}</Text>
                 </View>
                 <TouchableOpacity style={styles.iconComment}>
                   <Icon name="message-circle" size={25} color="#31788A" />
                   <Text style={styles.message}>0</Text>
                 </TouchableOpacity>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
+              </View>
+            </TouchableOpacity>
+          )}
+        />
       </View>
-      );
-    }
+    );
   }
-  
-  export default withNavigation(Postagem);
+}
+
+export default withNavigation(Postagem);
