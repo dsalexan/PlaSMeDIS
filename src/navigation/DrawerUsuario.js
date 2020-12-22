@@ -5,12 +5,15 @@ import Tab from './tabTop';
 import Update from '../pages/update';
 import Postagem from '../pages/homeCateg';
 import Forms from '../pages/forms';
-import api from '../services/api';
+import SideMenu from './DrawerStyle'
 
 
 const DrawerUsuario = createDrawerNavigator({
   Início:{
     screen:Tab,
+    screenOptions:{
+      title: 'Início',
+    },
   },
   FormsUpdate:{
     screen: Update,
@@ -21,24 +24,29 @@ const DrawerUsuario = createDrawerNavigator({
   Saúde:{
     screen: Postagem,
     params:{
-      idCateg:'1'
+      idCateg:'1',
+      titulo: 'Saúde'
     }
   },
   Trocas:{
     screen: Postagem,
     params:{
-      idCateg:'2'
+      idCateg:'2',
+      titulo: 'Trocas'
     }
   },
   Cultura:{
     screen: Postagem,
     params:{
-      idCateg:'3'
+      idCateg:'3',
+      titulo: 'Cultura e Lazer'
     },
     navigationOptions:{
       title: 'Cultura e Lazer'
     }
   }
+},{
+  contentComponent: SideMenu
 });
 
 export default DrawerUsuario;

@@ -92,7 +92,7 @@ export default class Forms extends Component {
 
     handleCadastrarPress = async () => {
       const id = await AsyncStorage.getItem('id');
-      if (this.state.nome_rep_familia.length == 0 ||  this.qtd_pessoas_familia.length == 0 || this.qtd_criancas.length == 0 || this.qtd_amamentando.length == 0 || this.state.qtd_criancas_deficiencia.length == 0 || this.state.nome_rep_familia.length == 0 || this.state.qtd_gestantes.length == 0) {
+      if (this.state.nome_rep_familia.length == 0 ||  this.state.qtd_pessoas_familia.length == 0 || this.state.qtd_criancas.length == 0 || this.state.qtd_amamentando.length == 0 || this.state.qtd_criancas_deficiencia.length == 0 || this.state.nome_rep_familia.length == 0 || this.state.qtd_gestantes.length == 0) {
         this.setState({ error: Alert.alert('Atenção','Preencha todos os campos para continuar.') }, () => false);
       }
       if((this.state.gestante == true && this.state.checkedNao == true) || (this.state.amamentando == true && this.state.naoAmamentando == true) ){
@@ -106,10 +106,10 @@ export default class Forms extends Component {
             qtd_pessoas_familia: this.state.qtd_pessoas_familia, 
             qtd_criancas : this.state.qtd_criancas,
             gestante : this.state.gestante,
-            qtd_amamentando : this.state.amamentando,
+            qtd_amamentando : this.state.qtd_amamentando,
             qtd_criancas_deficiencia : this.state.qtd_criancas_deficiencia,
             qtd_gestantes : this.state.qtd_gestantes,
-            preenchido : true 
+            pessoa_amamenta: this.state.amamentando
         }).then(res=>{
             this.setState({message: res.data.message});
           });
@@ -119,6 +119,7 @@ export default class Forms extends Component {
 
         } catch (_err) {
           Alert.alert('Atenção', this.state.message);
+          console.log(this.state.amamentando,this.state.nome_rep_familia,this.state.gestante,this.state.qtd_amamentando,this.state.qtd_criancas,this.state.qtd_criancas_deficiencia,this.state.qtd_pessoas_familia,this.state.qtd_gestantes, id)
         }
       }
     };

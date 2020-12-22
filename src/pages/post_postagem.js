@@ -124,7 +124,7 @@ export default class Post_postagem extends Component {
     render() {
       return (
         <View style={styles.modal}>
-            <Text style={styles.text_titulo}>Título da Pergunta</Text>
+            <Text style={styles.text_titulo}>Título</Text>
             <TextInput
               onChangeText={this.handleTituloChange}
               value={this.state.titulo}
@@ -132,7 +132,7 @@ export default class Post_postagem extends Component {
               editable
               maxLength={40}
             />
-            <Text style={styles.text_desc}>Descrição da Pergunta</Text>
+            <Text style={styles.text_desc}>Descrição</Text>
             <TextInput
               multiline
               numberOfLines={4}

@@ -13,7 +13,8 @@ var height = Dimensions.get('window').height; //full height
 const styles = StyleSheet.create({
   foto_post:{
     borderWidth:1,
-    borderColor:'rgba(0,0,0,0.2)',
+    //borderColor:'rgba(0,0,0,0.2)',
+    borderColor:'#fff',
     alignItems:'center',
     justifyContent:'center',
     width:50,
@@ -39,17 +40,20 @@ const styles = StyleSheet.create({
     borderColor:'#F5F5F5',
     alignItems:'center',
     justifyContent:'center',
-    width:280,
+    //width:280,
+    width: 340,
     height:40,
     backgroundColor:'#F5F5F5',
     borderRadius:50,
     marginTop: -45,
-    marginLeft: 70,
+    marginLeft: 10,
+    elevation:1
   },
   duvida:{
     fontFamily: 'Roboto',
     fontStyle: 'normal',
-    left: -45,
+    //left: -45,
+    textAlign: 'center',
     fontSize: 17,
     color: '#7A7A7A'
   },
@@ -146,7 +150,7 @@ export default class Home extends Component {
                 this.setState({ isVisible: true });
               }}>
                 <View>
-                  <Text style={styles.duvida}>Qual é a sua dúvida?</Text>
+                  <Text style={styles.duvida}>No que você está pensando?</Text>
                 </View>
               </TouchableOpacity>
             </View>    

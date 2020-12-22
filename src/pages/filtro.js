@@ -4,7 +4,7 @@ import {Text, View, StyleSheet, Image, TouchableOpacity, Modal, TextInput, Alert
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/dist/Feather';
 import api from '../services/api';
-import Postagem from '../pages/postagemFiltro';
+import Postagem from '../pages/homeCateg';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Picker} from '@react-native-community/picker';
 import Post_postagem from './post_postagem';

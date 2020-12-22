@@ -4,7 +4,6 @@ import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import Home from '../pages/home';
 import Recomendado from '../pages/recomendado'; 
-import Postagem from '../pages/postagemFiltro'
 
   
 const TabNavigator = createMaterialTopTabNavigator(  
