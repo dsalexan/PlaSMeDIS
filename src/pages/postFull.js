@@ -46,9 +46,12 @@ const styles = StyleSheet.create({
     }).isRequired,
   };
 
-  static navigationOptions = {
-    title: 'Pergunta',
-    }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('titulo'),
+    };
+  };
+
       state = {privilegio:'', users:[], selo: '', idPostagem: '',}
       
       componentDidMount =()=>{
