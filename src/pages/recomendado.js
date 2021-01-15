@@ -13,7 +13,7 @@ var height = Dimensions.get('window').height; //full height
 const styles = StyleSheet.create({
   content:{
     marginTop: 85,
-    marginBottom: 70
+    //marginBottom: 10
     }, 
   box:{
     width: width,
