@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 85,
     //marginBottom: 10
-  }, 
+  },
   box: {
     width: width,
     height: 180,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   iconComment: {
     top: 40,
-    left: 300
+    left: 300,
   },
   titulo: {
     //width: 300,
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.333333,
 
     color: '#09576E',
-
   },
   tempo: {
     position: 'absolute',
@@ -73,7 +72,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.333333,
 
     color: '#179AAB',
-
   },
   foto: {
     elevation: 0.5,
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#31788A',
   },
-  texto:{
+  texto: {
     position: 'absolute',
     width: 80,
     height: 90,
@@ -108,20 +106,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     letterSpacing: -0.333333,
-    
+
     color: '#179AAB',
   },
 });
 
 class Postagem extends Component {
-
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
       dispatch: PropTypes.func,
     }).isRequired,
   };
-  
+
   constructor(props) {
     super(props);
     this.page = 1;
@@ -135,51 +132,60 @@ class Postagem extends Component {
       id: '',
     };
   }
-    
-  componentDidMount =()=>{
+
+  componentDidMount = () => {
     this.getPostagem();
   };
 
   getColor = () => {
-    return `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},0.5)`
+    return `rgba(${Math.floor(Math.random() * 255)},${Math.floor(
+      Math.random() * 255,
+    )},${Math.floor(Math.random() * 255)},0.5)`;
   };
 
   getPostagem = async () => {
     await api.get('postagens').then((res) => {
-      this.setState({
-        posts: res.data.post,
-        cont: res.data.count,
-        id: res.data.id,
+      res.data.post.forEach((info, index) => {
+        const nome = info.criador.split(' ');
+        res.data.post[index].criador =
+          `${nome[0]} ` + `${nome[1] ? nome[1].charAt(0) : ''}`;
       });
-      const posts = this.state.posts.reverse();
-      this.setState({posts: posts});
+
+      const posts = res.data.post.reverse();
+      this.setState({posts: posts, cont: res.data.count, id: res.data.id});
     });
-      console.log(this.state.posts);
+
   };
   onRefresh = async () => {
     this.setState({
       isRefreshing: true,
       refreshing: true,
     });
-      await api.get("postagens").then( res => {
-          this.setState({  posts: res.data.post, cont: res.data.count, id: res.data.id});
-          const posts = this.state.posts.reverse();
-          this.setState({  posts: posts});
+    await api.get('postagens').then((res) => {
+      res.data.post.forEach((info, index) => {
+        const nome = info.criador.split(' ');
+        res.data.post[index].criador =
+          `${nome[0]} ` + `${nome[1] ? nome[1].charAt(0) : ''}`;
       });
-      this.setState({
-        isRefreshing: false,
-        refreshing: false
-      }); 
+      
+      const posts = res.data.post.reverse();
+      this.setState({posts: posts, cont: res.data.count, id: res.data.id});
+    });
+    
+    this.setState({
+      isRefreshing: false,
+      refreshing: false,
+    });
   };
-    render() {
-      return (
+  render() {
+    return (
       <View style={styles.content}>
         <Modal
           animationType={'slide'}
           transparent={false}
           visible={this.state.isVisible}
           onRequestClose={() => {
-            this.setState({ isVisible: false });
+            this.setState({isVisible: false});
           }}>
           <TouchableOpacity
             onPress={() => {
@@ -187,7 +193,7 @@ class Postagem extends Component {
             }}>
             <Icon
               name="x"
-              size={25}
+              size={45}
               color="#31788A"
               style={styles.icon}
               light
@@ -196,43 +202,47 @@ class Postagem extends Component {
           <PostFull />
         </Modal>
         <FlatList
-            onRefresh={this.onRefresh}
-            refreshing={this.state.refreshing}
-            extraData={this.extraData}
-            data={this.state.posts}
-            keyExtractor={(item, index) => item.id.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity 
-                onPress={()=> 
-                  this.props.navigation.navigate('PostFull', {
+          onRefresh={this.onRefresh}
+          refreshing={this.state.refreshing}
+          extraData={this.extraData}
+          data={this.state.posts}
+          keyExtractor={(item, index) => item.id.toString()}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('PostFull', {
                   titulo: item.titulo,
                   texto: item.texto,
                   selo: item.selo,
-                  idPostagem: item.id
+                  idPostagem: item.id,
                 })
               }>
               <View style={styles.box}>
-                <View style={{...styles.foto,  ...{backgroundColor: this.getColor()}}}>
+                <View
+                  style={{
+                    ...styles.foto,
+                    ...{backgroundColor: this.getColor()},
+                  }}>
                   <Text style={styles.identificador}>
                     {item.criador[0].toUpperCase()}
                   </Text>
                 </View>
-                <Text  style={styles.texto}>{item.criador}</Text>
-                  {/*<Text  style={styles.tempo}>30 min.</Text>*/}
+                <Text style={styles.texto}>{item.criador}</Text>
+                {/*<Text  style={styles.tempo}>30 min.</Text>*/}
                 <View>
-                <Text style={styles.titulo}>{item.titulo}</Text>
-              </View>
+                  <Text style={styles.titulo}>{item.titulo}</Text>
+                </View>
                 {/*<TouchableOpacity style={styles.iconComment}>
                   <Icon name="message-circle" size={25} color="#31788A" />
                   <Text style={styles.message}>0</Text>
                 </TouchableOpacity>*/}
-                </View>
-              </TouchableOpacity>
-            )}
-          />
+              </View>
+            </TouchableOpacity>
+          )}
+        />
       </View>
-      );
-    }
+    );
   }
-  
-  export default withNavigation(Postagem);
+}
+
+export default withNavigation(Postagem);

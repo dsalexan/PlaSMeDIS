@@ -87,9 +87,35 @@ export default class Login extends Component {
     verificado: '',
     status: '',
     error: '',
-    loading: false,
+    loading: true,
   };
 
+  componentDidMount = () => {
+    const mountLogin = async () => {
+      const id = await AsyncStorage.getItem('id');
+      const user_type = await AsyncStorage.getItem('user_type');
+
+      if (id) {
+        if (user_type == '3') {
+          const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'Usuario'})],
+          });
+          this.props.navigation.dispatch(resetAction);
+        } else {
+          const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'Adm'})],
+          });
+          this.props.navigation.dispatch(resetAction);
+        }
+      } else {
+        this.setState({loading: false})
+      }
+    };
+
+    mountLogin();
+  };
   handleemailChange = (email) => {
     this.setState({email});
   };
@@ -126,6 +152,7 @@ export default class Login extends Component {
           });
 
         await AsyncStorage.setItem('id', this.state.id);
+        await AsyncStorage.setItem('user_type', this.state.user_type);
         console.log(this.state.id);
         if (this.state.status == 1010) {
           this.setState({loading: false});
@@ -160,7 +187,12 @@ export default class Login extends Component {
           <View style={styles.loginFormView}>
             <Text style={styles.logoText}>IBEApp</Text>
             {this.state.loading ? (
-                <Progress.CircleSnail  style={styles.progressCircle} color={["#31788A"]} size={50} indeterminate={true} />
+              <Progress.CircleSnail
+                style={styles.progressCircle}
+                color={['#31788A']}
+                size={50}
+                indeterminate={true}
+              />
             ) : (
               <>
                 <TextInput
