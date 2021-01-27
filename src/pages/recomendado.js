@@ -23,6 +23,9 @@ const styles = StyleSheet.create({
     marginTop: 85,
   },
   box: {
+    //marginBottom: 10
+    }, 
+  box:{
     width: width,
     height: 180,
     left: 0,

@@ -245,29 +245,53 @@ class PostFull extends PureComponent {
         </Text>
       );
     } else {
-      titulo = (
-        <TouchableOpacity onPress={() => this.alerta()}>
-          <Text style={styles.content1}>
-            {' '}
-            {this.props.navigation.getParam('titulo')}{' '}
-            {this.state.selo ? (
-              <Icon
-                style={styles.verificado}
-                name="verified"
-                size={25}
-                color="#31788A"
-              />
-            ) : (
-              <Icon
-                style={styles.verificado}
-                name="verified"
-                size={25}
-                color="#31788A30"
-              />
-            )}
-          </Text>
-        </TouchableOpacity>
-      );
+        if(this.state.selo == false){
+          titulo = (
+            <TouchableOpacity onPress={() => this.alerta()}>
+              <Text style={styles.content1}>
+                {' '}
+                {this.props.navigation.getParam('titulo')}{' '}
+                {this.state.selo ? (
+                  <Icon
+                    style={styles.verificado}
+                    name="verified"
+                    size={25}
+                    color="#31788A"
+                  />
+                ) : (
+                  <Icon
+                    style={styles.verificado}
+                    name="verified"
+                    size={25}
+                    color="#31788A30"
+                  />
+                )}
+              </Text>
+            </TouchableOpacity>
+          );
+        } else {
+          titulo = (
+            <Text style={styles.content1}>
+              {' '}
+              {this.props.navigation.getParam('titulo')}{' '}
+              {this.state.selo ? (
+                <Icon
+                  style={styles.verificado}
+                  name="verified"
+                  size={25}
+                  color="#31788A"
+                />
+              ) : (
+                <Icon
+                  style={styles.verificado}
+                  name="verified"
+                  size={25}
+                  color="#31788A30"
+                />
+              )}
+            </Text>
+          );
+        }
     }
     return (
       <View style={styles.container}>
