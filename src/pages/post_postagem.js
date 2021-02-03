@@ -114,6 +114,7 @@ export default class Post_postagem extends Component {
 
           Alert.alert('Sucesso!', this.state.message );
           this.setState({content: '', titulo: '', message: '', error: ''});
+          this.props.handler()
                 
       } catch (_err) {
         Alert.alert('Atenção!', this.state.error);
