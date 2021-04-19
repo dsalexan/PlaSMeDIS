@@ -80,6 +80,15 @@ class SideMenu extends Component {
               </Text>
             </View>
           </View>
+          <View>
+            <View style={styles.navSectionStyleCateg}>
+              <Text
+                style={styles.navItemStyle}
+                onPress={this.navigateToScreen('Pesquisar')}>
+                Pesquisar
+              </Text>
+            </View>
+          </View>
           <View style={styles.navSectionStyleForm}>
             <Text
               style={styles.navItemStyle}
